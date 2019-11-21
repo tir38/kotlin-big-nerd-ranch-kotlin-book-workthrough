@@ -1,5 +1,9 @@
+import kotlin.math.roundToInt
+
 const val TAVERN_NAME: String = "Taernyl's Folly"
 
+var playerGold: Int = 10
+var playerSilver: Int = 10
 
 fun main(args: Array<String>) {
 //    var beverage = readLine()
@@ -23,6 +27,28 @@ fun main(args: Array<String>) {
 //    val beverageServed: String = beverage ?: "Buttered Ale"
 //    println(beverageServed)
     placeOrder("shandy,Dragon's Breath,5.91")
+}
+
+fun performPurchase(price: Double) {
+    displayBalance()
+    val totalPurse = playerGold + (playerSilver / 100.0)
+    println("Total purse: $totalPurse")
+    println("Purchasing item for $price")
+    val remainingBalance = totalPurse - price
+//    println("Remaining balance: $remainingBalance")
+    println("Remaining balance: ${"%.2f".format(remainingBalance)}")
+
+    val remainingGold = remainingBalance.toInt() // will this always round down??
+    val remainingSilver = (remainingBalance % 1 * 100).roundToInt() // round to int will lose/add a fraction of a silver
+    playerGold = remainingGold
+    playerSilver = remainingSilver
+    displayBalance()
+
+    LEFT OFF HERE; do ch8 challenges
+}
+
+private fun displayBalance() {
+    println("Player's purse balance: Gold: $playerGold, Silver: $playerSilver")
 }
 
 private fun toDragonSpeak(phrase: String) =
@@ -53,6 +79,8 @@ fun placeOrder(metaMenuData: String) {
 
 //    val phrase = "Ah, delicious $name"
 //    println("Madrigal exclaims: ${toDragonSpeak(phrase)}")
+
+    performPurchase(price.toDouble())
 
     val phrase = if (name == "Dragon's Breath") {
         "Madrigal exclaims: ${toDragonSpeak("Ah delicious $name")}"
