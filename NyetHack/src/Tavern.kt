@@ -1,3 +1,4 @@
+import java.io.File
 import kotlin.math.roundToInt
 
 const val TAVERN_NAME: String = "Taernyl's Folly"
@@ -26,7 +27,9 @@ fun main(args: Array<String>) {
 //
 //    val beverageServed: String = beverage ?: "Buttered Ale"
 //    println(beverageServed)
-    placeOrder("shandy,Dragon's Breath,5.91")
+//    placeOrder("shandy,Dragon's Breath,5.91")
+
+    applyExperiment()
 }
 
 fun performPurchase(price: Double) {
@@ -43,8 +46,6 @@ fun performPurchase(price: Double) {
     playerGold = remainingGold
     playerSilver = remainingSilver
     displayBalance()
-
-    LEFT OFF HERE; do ch8 challenges
 }
 
 private fun displayBalance() {
@@ -88,4 +89,37 @@ fun placeOrder(metaMenuData: String) {
         "Madrigal says: Thanks for the $name"
     }
     println(phrase)
+}
+
+fun applyExperiment() {
+    val file = File("somefile.txt").apply {
+        setReadable(true)
+    }
+
+    file.setReadable(false)
+
+    // can apply be used outside of object creation?
+    file.apply {
+        // yest I can!!
+        setReadable(true)
+    }
+
+    // because of relative scoping i can do stuff like this
+    file.apply {
+        val someBool = true
+        setReadable(someBool)
+    }
+
+    file.apply {
+        val someBool = false
+        // Because someBool was relatively scoped above,  I can "reuse" the name again here w/out interference,
+        // and w/out having to make someBool mutable !!!
+        setReadable(someBool)
+    }
+}
+
+fun letExperiment() {
+    val i = listOf(1, 3, 5).first().let {
+        it * it
+    }
 }
